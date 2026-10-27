@@ -14,7 +14,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 ## Repository layout
 | Path | Contents |
 |---|---|
-| `replacement/` | LLC policies: `srrip.llc_repl`, `srrip_way.llc_repl`, `mockingjay.llc_repl`, `hawkeye.llc_repl` |
+| `replacement/` | LLC policies: `srrip.llc_repl`, `mockingjay.llc_repl`, `hawkeye.llc_repl` |
 | `inc/` | ChampSim headers, plus `hawkeye_predictor.h` and `optgen.h` needed by Hawkeye |
 | `script_me/` | `generate_trace.sh`, `run_simulation.sh`, `output_parsing.py`, `plots_generation.py` |
 | `patches/` | `llama.patch`: local changes to llama.cpp |
