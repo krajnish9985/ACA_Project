@@ -1,0 +1,39 @@
+# Intel Pin
+pin/
+
+# Traces and simulation output
+*.trace
+*.trace.xz
+*.champsimtrace.xz
+traces/
+results/raw/
+results.zip
+logs_me/
+*.log
+
+# Models
+*.gguf
+model/
+
+# Build artifacts
+build/
+bin/
+obj/
+*.o
+*.a
+.csconfig
+.csconfig/
+toy
+
+# External repos (separate git repos; document commit hashes in README)
+champsim-upstream/
+llama.cpp/
+
+# Backups and misc
+*.bkup
+*.bak
+*.cp
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

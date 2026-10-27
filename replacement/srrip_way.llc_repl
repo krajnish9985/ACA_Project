@@ -1,0 +1,78 @@
+
+#include "cache.h"
+
+#define MAX_RRPV 3
+
+uint32_t llc_rrpv[LLC_SET][LLC_WAY];
+
+void CACHE::llc_initialize_replacement()
+{
+    cout << "Initialize SRRIP state for LLC" << endl;
+
+    for (uint32_t set = 0; set < LLC_SET; set++) {
+        for (uint32_t way = 0; way < LLC_WAY; way++) {
+            llc_rrpv[set][way] = MAX_RRPV;
+        }
+    }
+}
+
+uint32_t CACHE::llc_find_victim(
+    uint32_t cpu,
+    uint64_t instr_id,
+    uint32_t set,
+    const BLOCK *current_set,
+    uint64_t ip,
+    uint64_t full_addr,
+    uint32_t type)
+{
+    // Step 1: Prefer an invalid (empty) way.
+    for (uint32_t way = 0; way < LLC_WAY; way++) {
+        if (!current_set[way].valid) {
+            return way;
+        }
+    }
+
+    // Step 2: All ways are valid.
+    // Select a victim whose RRPV is MAX_RRPV.
+    while (1) {
+        for (uint32_t way = 0; way < LLC_WAY; way++) {
+            if (llc_rrpv[set][way] == MAX_RRPV) {
+                return way;
+            }
+        }
+
+        // Step 3: No eligible victim yet.
+        // Age the lines until one reaches MAX_RRPV.
+        for (uint32_t way = 0; way < LLC_WAY; way++) {
+            if (llc_rrpv[set][way] < MAX_RRPV) {
+                llc_rrpv[set][way]++;
+            }
+        }
+    }
+
+    assert(0);
+    return 0;
+}
+
+void CACHE::llc_update_replacement_state(
+    uint32_t cpu,
+    uint32_t set,
+    uint32_t way,
+    uint64_t full_addr,
+    uint64_t ip,
+    uint64_t victim_addr,
+    uint32_t type,
+    uint8_t hit)
+{
+    if (hit) {
+        // Cache hit: mark the line as recently used.
+        llc_rrpv[set][way] = 0;
+    } else {
+        // Cache fill: insert with RRPV = MAX_RRPV - 1.
+        llc_rrpv[set][way] = MAX_RRPV - 1;
+    }
+}
+
+void CACHE::llc_replacement_final_stats()
+{
+}

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ "$#" -lt 3 ]; then
+if [ "$#" -lt 4 ]; then
     echo
     echo "======================================================================="
     echo " ERROR: Invalid number of arguments supplied."
     echo "======================================================================="
     echo
-    echo "Usage: ./build_champsim.sh <L1d Prefetcher> <L2C Replacement Policy> <binary name>"
+    echo "Usage: ./build_champsim.sh <L1d Prefetcher> <L2C Replacement Policy> <LLC Replacement Policy> <binary name>"
     echo
     echo "L1d Prefetchers:"
     echo "  1) IP Stride"
@@ -14,11 +14,13 @@ if [ "$#" -lt 3 ]; then
     echo "  3) No Prefetcher"
     echo
     echo "L2 Replacement Policies:"
-    echo "  1) LRU"
-    echo "  2) DCLIP"
+    echo "  Choose a policy with a matching replacement/<policy>.l2c_repl file"
+    echo
+    echo "LLC Replacement Policies:"
+    echo "  Choose a policy with a matching replacement/<policy>.llc_repl file"
     echo
     echo "Example:"
-    echo "  ./build_champsim.sh ip_stride lru baseline"
+    echo "  ./build_champsim.sh no lru baseline mockingjay"
     echo
     echo "======================================================================="
     exit 1
@@ -38,12 +40,12 @@ BTB_REPLACEMENT="lru"       # BTB replacement
 L1I_REPLACEMENT="lru"    # L1I replacement
 L1D_REPLACEMENT="lru"    # L1D replacement
 L2C_REPLACEMENT=$2    # L2C replacement
-LLC_REPLACEMENT="lru"    # LLC replacement
+LLC_REPLACEMENT=$3    # LLC replacement
 ITLB_REPLACEMENT="lru"   # ITLB replacement
 DTLB_REPLACEMENT="lru"   # DTLB replacement
 STLB_REPLACEMENT="lru"   # STLB replacement
 
-BINARY_NAME=$3
+BINARY_NAME=$4
 NUM_CORE=1        # tested up to 8-core system
 
 ############## Some useful macros ###############
@@ -247,7 +249,7 @@ echo "DTLB Replacement: ${DTLB_REPLACEMENT}"
 echo "STLB Replacement: ${STLB_REPLACEMENT}"
 
 echo "Cores: ${NUM_CORE}"
-BINARY_NAME="${BRANCH}-${L1I_PREFETCHER}-${L1D_PREFETCHER}-${L2C_PREFETCHER}-${LLC_PREFETCHER}-${ITLB_PREFETCHER}-${DTLB_PREFETCHER}-${STLB_PREFETCHER}-${BTB_REPLACEMENT}-${L1I_REPLACEMENT}-${L1D_REPLACEMENT}-${L2C_REPLACEMENT}-${LLC_REPLACEMENT}-${ITLB_REPLACEMENT}-${DTLB_REPLACEMENT}-${STLB_REPLACEMENT}-${NUM_CORE}core-${3}"
+BINARY_NAME="${BRANCH}-${L1I_PREFETCHER}-${L1D_PREFETCHER}-${L2C_PREFETCHER}-${LLC_PREFETCHER}-${ITLB_PREFETCHER}-${DTLB_PREFETCHER}-${STLB_PREFETCHER}-${BTB_REPLACEMENT}-${L1I_REPLACEMENT}-${L1D_REPLACEMENT}-${L2C_REPLACEMENT}-${LLC_REPLACEMENT}-${ITLB_REPLACEMENT}-${DTLB_REPLACEMENT}-${STLB_REPLACEMENT}-${NUM_CORE}core-${4}"
 echo "Binary: bin/${BINARY_NAME}"
 echo ""
 mv bin/champsim bin/${BINARY_NAME}

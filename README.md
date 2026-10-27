@@ -21,9 +21,9 @@ For example, `./build_champsim.sh no lru baseline` builds a single-core processo
 You can give the binary any name. Custom names help distinguish binaries that use the same configuration.
 
 ```bash
-./build_champsim.sh ${L1D_PREFETCHER} ${L2C_REPLACEMENT} ${BINARY_NAME}
+./build_champsim.sh ${L1D_PREFETCHER} ${L2C_REPLACEMENT} ${LLC_REPLACEMENT} ${BINARY_NAME}
 
-./build_champsim.sh no lru baseline
+./build_champsim.sh no lru mockingjay baseline
 ```
 
 ## Run simulation

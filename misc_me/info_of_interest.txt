@@ -1,0 +1,15 @@
+WHAT ARE THESE DIFFERENT TLB??????????????
+BTB has LRU replacement policy
+ITLB has LRU replacement policy
+DTLB has LRU replacement policy
+STLB has LRU replacement policy
+L1I has LRU replacement policy
+L1D has LRU replacement policy
+L2C has LRU replacement policy
+LLC has LRU replacement policy
+
+HOW DOES IT KNOW WHAT IS THE REGION OF INTEREST?
+Region of Interest Statistics
+
+CPU 0 cumulative IPC: 0.669119 instructions: 25000001 cycles: 37362577
+ITLB TOTAL     ACCESS:    3413221  HIT:    3413221  MISS:          0  HIT %:        100  MISS %:          0
