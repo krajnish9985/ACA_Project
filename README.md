@@ -3,8 +3,8 @@
 CS683 (Autumn 2026) project, IIT Bombay.
 
 ## Overview
-Characterizes how LLC replacement policies (LRU, SRRIP, Mockingjay, Hawkeye)
-affect CPU-based LLM decoding across LLC capacities and context lengths,
+Benchmark and get insight how LLC replacement policies (LRU, SRRIP, Mockingjay, Hawkeye)
+affect CPU-based LLM decoding across LLC size and context lengths,
 using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 
 ## Status
