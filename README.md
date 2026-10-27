@@ -35,7 +35,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 1. Build llama.cpp (static, debug, no-PIE), apply `patches/llama.patch`.
 2. Generate the trace: `script_me/generate_trace.sh` (single thread, 128 tokens,
    trace only the decode region).
-3. Build ChampSim with a policy: `./build_champsim_llc.sh <policy>`
+3. Build ChampSim with a policy: `./build_champsim_llc.sh ${L1D_PREFETCHER} ${L2C_REPLACEMENT} ${LLC_REPLACEMENT} ${BINARY_NAME}`
 4. Run: `script_me/run_simulation.sh`
 5. Parse and plot: `python script_me/output_parsing.py` then
    `python script_me/plots_generation.py`
