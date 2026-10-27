@@ -53,18 +53,21 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 - Mockingjay, SRRIP (Jaleel et al., ISCA 2010)
 - Prior work: Banasik, *Memory Access Characterization of LLMs in CPU Environment* (2025)
 
-
-
-
-
-
-
-
-
-
-
-
-
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
 # ChampSim
 
 ChampSim is a trace-based simulator for microarchitecture research.
