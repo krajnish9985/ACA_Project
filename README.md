@@ -45,7 +45,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 - Metrics: LLC misses, MPKI, IPC, token-generation latency, throughput
 
 ## Results
-<embed a plot, e.g. ![IPC](plots/IPC.png)>
+ ![IPC](plots/IPC.png)
 
 ## Credits
 - ChampSim (Gober et al.)
