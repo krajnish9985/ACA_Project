@@ -41,8 +41,8 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
    `python script_me/plots_generation.py`
 
 ## Simulation setup
-- LLC: `<size, sets, ways>`, warmup `<N>` instructions, simulated `<N>` instructions
-- Metrics: LLC misses, MPKI, IPC, token-generation latency, throughput
+- LLC: `2048 sets, 16 Way`, warmup `580M` instructions, simulated `1.405B` instructions
+- Metrics: LLC misses, MPKI, IPC, DRAM bandwidth
 
 ## Results
  ![IPC](plots/IPC.png)
