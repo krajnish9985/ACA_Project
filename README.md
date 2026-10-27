@@ -9,7 +9,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 
 ## Status
 - Phase 1 (checkpoint I): fixed LLC config, four policies, MPKI / IPC / misses
-- Phase 2 (checkpoint II): LLC capacity sweep and context-length sweep (planned)
+- Phase 2 (checkpoint II): increase LLC size  and context-length (planned)
 
 ## Repository layout
 | Path | Contents |
@@ -50,8 +50,9 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 ## Credits
 - ChampSim (Gober et al.)
 - Hawkeye (Jain and Lin, ISCA 2016), UT Austin research license; see header in `replacement/hawkeye.llc_repl`
-- Mockingjay, SRRIP (Jaleel et al., ISCA 2010)
-- Prior work: Banasik, *Memory Access Characterization of LLMs in CPU Environment* (2025)
+- Mockingjay : https://github.com/ishanashah/Mockingjay -
+- SRRIP (Jaleel et al., ISCA 2010)
+
 
 \
 \
