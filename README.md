@@ -1,6 +1,6 @@
 # Impact of LLC Replacement Policies on CPU-Based LLM Decoding
 
-CS683 (Autumn 2026) project, IIT Bombay. Author: Kumar Rajnish (25m2123)
+CS683 (Autumn 2026) project, IIT Bombay.
 
 ## Overview
 Characterizes how LLC replacement policies (LRU, SRRIP, Mockingjay, Hawkeye)
