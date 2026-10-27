@@ -29,7 +29,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 | ChampSim (`champsim-upstream/`) | `410cee62d9c429c043ea611325ce00e6c303be2a` |
 | llama.cpp | `970b51ce7c9ba5fff0726c5e9994f1c2f0e4eedc` + `patches/llama.patch` |
 | Intel Pin | `4.1`, download from Intel |
-| Model | Qwen2.5-0.5B-Instruct fp16 GGUF, `<download link>(https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct)` |
+| Model | Qwen2.5-0.5B-Instruct fp16 GGUF, `(https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct)` |
 
 ## Reproducing results
 1. Build llama.cpp (static, debug, no-PIE), apply `patches/llama.patch`.
