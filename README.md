@@ -1,3 +1,70 @@
+# Impact of LLC Replacement Policies on CPU-Based LLM Decoding
+
+CS683 (Autumn 2026) project, IIT Bombay. Author: Kumar Rajnish (25m2123)
+
+## Overview
+Characterizes how LLC replacement policies (LRU, SRRIP, Mockingjay, Hawkeye)
+affect CPU-based LLM decoding across LLC capacities and context lengths,
+using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
+
+## Status
+- Phase 1 (checkpoint I): fixed LLC config, four policies, MPKI / IPC / misses
+- Phase 2 (checkpoint II): LLC capacity sweep and context-length sweep (planned)
+
+## Repository layout
+| Path | Contents |
+|---|---|
+| `replacement/` | LLC policies: `srrip.llc_repl`, `srrip_way.llc_repl`, `mockingjay.llc_repl`, `hawkeye.llc_repl` |
+| `inc/` | ChampSim headers, plus `hawkeye_predictor.h` and `optgen.h` needed by Hawkeye |
+| `script_me/` | `generate_trace.sh`, `run_simulation.sh`, `output_parsing.py`, `plots_generation.py` |
+| `patches/` | `llama.patch`: local changes to llama.cpp |
+| `results/` | Raw ChampSim stats per policy |
+| `plots/` | Generated figures (IPC, speedup, LLC dMPKI, miss reduction, DRAM GB/s, ...) |
+| `build_champsim_llc.sh` | Builds ChampSim for a given LLC policy |
+| `Containerfile` | Environment definition |
+
+## External dependencies (not in this repo)
+| Tool | Version / commit |
+|---|---|
+| ChampSim (`champsim-upstream/`) | `<commit hash>` |
+| llama.cpp | `<commit hash>` + `patches/llama.patch` |
+| Intel Pin | `<version>`, download from Intel |
+| Model | Qwen2.5-0.5B-Instruct fp16 GGUF, `<download link>` |
+
+## Reproducing results
+1. Build llama.cpp (static, debug, no-PIE), apply `patches/llama.patch`.
+2. Generate the trace: `script_me/generate_trace.sh` (single thread, 128 tokens,
+   trace only the decode region).
+3. Build ChampSim with a policy: `./build_champsim_llc.sh <policy>`
+4. Run: `script_me/run_simulation.sh`
+5. Parse and plot: `python script_me/output_parsing.py` then
+   `python script_me/plots_generation.py`
+
+## Simulation setup
+- LLC: `<size, sets, ways>`, warmup `<N>` instructions, simulated `<N>` instructions
+- Metrics: LLC misses, MPKI, IPC, token-generation latency, throughput
+
+## Results
+<embed a plot, e.g. ![IPC](plots/IPC.png)>
+
+## Credits
+- ChampSim (Gober et al.)
+- Hawkeye (Jain and Lin, ISCA 2016), UT Austin research license; see header in `replacement/hawkeye.llc_repl`
+- Mockingjay, SRRIP (Jaleel et al., ISCA 2010)
+- Prior work: Banasik, *Memory Access Characterization of LLMs in CPU Environment* (2025)
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ChampSim
 
 ChampSim is a trace-based simulator for microarchitecture research.
