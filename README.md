@@ -19,7 +19,7 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 | `script_me/` | `generate_trace.sh`, `run_simulation.sh`, `output_parsing.py`, `plots_generation.py` |
 | `patches/` | `llama.patch`: local changes to llama.cpp |
 | `results/` | Raw ChampSim stats per policy |
-| `plots/` | Generated figures (IPC, speedup, LLC dMPKI, miss reduction, DRAM GB/s, ...) |
+| `plots/` | Generated figures (IPC, speedup, LLC dMPKI, miss reduction, DRAM GB/s) |
 | `build_champsim_llc.sh` | Builds ChampSim for a given LLC policy |
 | `Containerfile` | Environment definition |
 
