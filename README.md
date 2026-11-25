@@ -46,6 +46,21 @@ using ChampSim and Intel Pin traces of Qwen2.5-0.5B-Instruct on llama.cpp.
 ## Results
  ![IPC](plots/IPC.png)
 
+## Phase 2: Why do Hawkeye and Mockingjay speed up decoding?
+
+Phase 1 showed Hawkeye (+15.5%) and Mockingjay (+12.3%) beating LRU, with higher DRAM bandwidth. SRRIP gave no gain (-1.3%). Phase 2 investigates the cause with a series of experiments on the same trace and LLC configuration.
+
+| # | Experiment | What was done | Result |
+|---|---|---|---|
+| H1 | DRAM read-miss breakdown | Split DRAM read row misses by cause (row closed/invalid, row used by write, other) for each policy | 80% of LRU's row misses are "row closed/invalid" |
+| H2 | Free DRAM writes | Made DRAM writes cost nothing and re-ran all four policies | All policies collapse to the same IPC, so the speedup comes from the DRAM write path |
+| H3 | Noise check | Repeated runs of LRU and Hawkeye | IPC varies only in the third decimal; the gap stays at 15.5-15.7% |
+| H4 | Disable idle-time write mode | Turned off the controller's idle-triggered write mode under LRU | "Closed row" share of misses drops from 80.6% to 3.2% |
+| H5 | SRRIP + writeback rule | Gave SRRIP the same writeback handling as Hawkeye/Mockingjay | IPC and idle episodes barely change, so the writeback rule is not the cause |
+| H6 | Write count and write clustering | Compared total DRAM writes (LRU vs Mockingjay) and average writes completed per write-mode episode for every policy | Mockingjay sends about 3.3x fewer writes; Hawkeye clusters writes so each episode completes more of them |
+
+**Takeaway:** The gain comes from the DRAM write path, not from LLC hit rate. Under LRU, idle-time write mode is repeatedly started and cancelled, which closes open rows and makes later reads pay full row misses. Mockingjay avoids this with fewer writes, and Hawkeye by clustering them.
+
 ## Credits
 - ChampSim (Gober et al.)
 - Hawkeye (Jain and Lin, ISCA 2016), UT Austin research license; see header in `replacement/hawkeye.llc_repl`
