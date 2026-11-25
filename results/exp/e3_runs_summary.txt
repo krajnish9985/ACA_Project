@@ -1,0 +1,16 @@
+[DRAM ideal_writes flag seen in logs: [0]  (1 = writes free; ablation only)]
+run                               IPC   spdup  rdRowMiss%  writeMode%  blocked%
+w290000000_lru                 0.6076   1.000       19.02       12.00      0.11
+w290000000_hawkeye             0.7016   1.155        4.78        2.15      0.17
+w290000001_lru                 0.6076   1.000       19.02       12.00      0.11
+w290000001_hawkeye             0.7016   1.155        4.78        2.15      0.17
+w291000000_lru                 0.6077   1.000       18.98       11.99      0.11
+w291000000_hawkeye             0.7022   1.155        4.67        2.09      0.15
+w295000000_lru                 0.6075   1.000       19.02       12.02      0.11
+w295000000_hawkeye             0.7027   1.157        4.64        2.03      0.13
+w300000000_lru                 0.6077   1.000       19.00       12.00      0.11
+w300000000_hawkeye             0.7034   1.157        4.53        1.95      0.13
+
+Spread across runs of the SAME policy (noise check):
+  lru         n=5  IPC 0.6075-0.6077  rowMiss% 18.98-19.02  writeMode% 11.99-12.02
+  hawkeye     n=5  IPC 0.7016-0.7034  rowMiss% 4.53-4.78  writeMode% 1.95-2.15

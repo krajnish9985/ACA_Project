@@ -1,0 +1,54 @@
+[DRAM ideal_writes flag seen in logs: [0]  (1 = writes free; ablation only)]
+                                                                      lru         srrip       hawkeye    mockingjay
+
+Performance
+instructions                                                1,405,000,001 1,405,000,001 1,405,000,001 1,405,000,001
+cycles                                                      1,983,899,433 1,980,499,488 1,960,607,960 1,960,602,093
+IPC                                                                0.7082        0.7094        0.7166        0.7166
+speedup vs LRU (same group)                                        1.0000        1.0017        1.0119        1.0119
+
+LLC
+demand MPKI                                                        55.410        55.355        55.206        55.114
+avg LLC miss latency (cyc)                                          73.01         72.85         72.25         71.84
+
+DRAM reads
+reads (row hit+miss)                                           77,997,628    77,929,259    77,717,062    77,591,335
+read row-miss %                                                      2.42          2.33          1.88          1.73
+DBUS_CONGESTED                                                          0             0             0             0
+
+DRAM writes / write mode
+writes (row hit+miss)                                             419,554       403,589       319,671       128,693
+WQ FULL events                                                          0             0           537             0
+cycles in write mode                                            8,567,286     8,408,639     6,470,518     2,458,750
+  as % of total cycles                                               0.43          0.42          0.33          0.13
+  of which reads WAITING (blocked)                              7,212,361     6,969,043     5,479,370     1,881,374
+    blocked as % of total cycles                                     0.36          0.35          0.28          0.10
+  of which RQ empty (free time)                                 1,354,925     1,439,596       991,148       577,376
+write-mode entries: queue full                                     42,021        39,277        29,363        11,256
+write-mode entries: idle (RQ empty)                                     0             0             0             0
+write-mode exits                                                   42,021        39,277        29,363        11,256
+writes completed per exit (avg)                                      9.98         10.28         10.89         11.43
+in-flight reads discarded at entry                                 49,763        46,203        42,212         8,579
+in-flight writes discarded at exit                                293,727       271,532       202,758        76,709
+
+Why reads missed the row buffer (% of read row-misses)
+bank row closed/invalid (reset or first use)                         3.15          5.85          5.89          1.79
+bank last used by a WRITE                                           14.22         10.85          9.56          4.47
+read-read conflict (different row)                                  82.63         83.30         84.55         93.75
+
+Read queue depth when a read is scheduled
+average depth                                                        4.14          4.11          4.06          4.03
+% of schedules with depth <= 1                                      13.54         13.90         13.92         14.19
+% of schedules with depth >= 8                                       8.07          8.05          7.27          7.07
+
+Row-miss % per 100K reads (time series)
+intervals                                                             779           779           777           775
+p10                                                                  1.75          1.82          1.29          1.27
+median                                                               1.95          1.95          1.66          1.41
+p90                                                                  2.71          2.43          1.91          1.90
+max                                                                 50.15         34.97         31.98         28.94
+
+Where did the cycle savings vs LRU come from? (indicative, not strict causality)
+  srrip          cycles saved      3,399,945 | read-mode   95.3%  write-mode    4.7% | write-mode with reads waiting    7.2%
+  hawkeye        cycles saved     23,291,473 | read-mode   91.0%  write-mode    9.0% | write-mode with reads waiting    7.4%
+  mockingjay     cycles saved     23,297,340 | read-mode   73.8%  write-mode   26.2% | write-mode with reads waiting   22.9%

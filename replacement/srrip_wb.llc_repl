@@ -1,0 +1,55 @@
+// SRRIP + "writeback rule" copied from Hawkeye/Mockingjay (experiment E5).
+//  - a writeback that MISSES the LLC is filled as first-choice victim (RRPV = MAX_RRPV)
+//    [Hawkeye: fill inherits the victim's RRPV, which is usually 7; Mockingjay: ETR = -INF_ETR]
+//  - a writeback that HITS leaves replacement state unchanged
+//    [Hawkeye: returns early on WRITEBACK; Mockingjay: returns early on WRITEBACK]
+// Everything else is identical to srrip_way.llc_repl.
+#include "cache.h"
+
+#define MAX_RRPV 3
+
+uint32_t llc_rrpv[LLC_SET][LLC_WAY];
+
+void CACHE::llc_initialize_replacement()
+{
+    cout << "Initialize SRRIP+WB-rule state for LLC" << endl;
+    for (uint32_t set = 0; set < LLC_SET; set++)
+        for (uint32_t way = 0; way < LLC_WAY; way++)
+            llc_rrpv[set][way] = MAX_RRPV;
+}
+
+uint32_t CACHE::llc_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, const BLOCK *current_set,
+                                uint64_t ip, uint64_t full_addr, uint32_t type)
+{
+    for (uint32_t way = 0; way < LLC_WAY; way++)
+        if (!current_set[way].valid)
+            return way;
+
+    while (1) {
+        for (uint32_t way = 0; way < LLC_WAY; way++)
+            if (llc_rrpv[set][way] == MAX_RRPV)
+                return way;
+        for (uint32_t way = 0; way < LLC_WAY; way++)
+            if (llc_rrpv[set][way] < MAX_RRPV)
+                llc_rrpv[set][way]++;
+    }
+    assert(0);
+    return 0;
+}
+
+void CACHE::llc_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t way, uint64_t full_addr,
+                                         uint64_t ip, uint64_t victim_addr, uint32_t type, uint8_t hit)
+{
+    if (type == WRITEBACK) {
+        if (!hit)
+            llc_rrpv[set][way] = MAX_RRPV;   // written-back line is evicted first
+        return;                              // writeback hit: no state change
+    }
+
+    if (hit)
+        llc_rrpv[set][way] = 0;
+    else
+        llc_rrpv[set][way] = MAX_RRPV - 1;
+}
+
+void CACHE::llc_replacement_final_stats() {}
